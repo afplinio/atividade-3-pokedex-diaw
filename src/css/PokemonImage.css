@@ -1,0 +1,20 @@
+.pokemon-image {
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.pokemon-image.is-loaded {
+  opacity: 1;
+}
+
+.pokemon-image--fallback {
+  display: grid;
+  place-items: center;
+  opacity: 1;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-title);
+  font-size: 2rem;
+}

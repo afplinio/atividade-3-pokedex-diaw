@@ -1,5 +1,6 @@
 import TypeBadge from './TypeBadge'
-import { formatId, getArtworkUrl, getTotalStats, getTypeColor, STATS } from '../utils/pokemon'
+import PokemonImage from './PokemonImage'
+import { formatId, getTotalStats, getTypeColor, STATS } from '../utils/pokemon'
 import '../css/PokemonCard.css'
 
 // Alguns Pokémon do arquivo (ex.: Mew) não possuem tipos cadastrados.
@@ -17,12 +18,10 @@ function PokemonCard({ pokemon }) {
     >
       <div className="pokemon-card__top">
         <span className="pokemon-card__id">{formatId(pokemon.id)}</span>
-        <img
+        <PokemonImage
+          id={pokemon.id}
+          name={pokemon.name}
           className="pokemon-card__image"
-          src={getArtworkUrl(pokemon.id)}
-          alt={pokemon.name}
-          width="120"
-          height="120"
         />
       </div>
 
