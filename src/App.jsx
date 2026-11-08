@@ -4,6 +4,7 @@ import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
+import EmptyState from './components/EmptyState'
 import { getUsedTypes, matchesSearch, matchesType } from './utils/pokemon'
 import './css/App.css'
 
@@ -35,7 +36,19 @@ function App() {
             onSelect={setSelectedType}
           />
         </section>
-        <PokemonList pokemonList={filteredPokemon} />
+
+        <p className="results-info" aria-live="polite">
+          Exibindo <strong>{filteredPokemon.length}</strong> de {data.pokemon.length} Pokémon
+        </p>
+
+        {filteredPokemon.length > 0 ? (
+          <PokemonList pokemonList={filteredPokemon} />
+        ) : (
+          <EmptyState
+            title="Nenhum Pokémon encontrado"
+            message="Tente pesquisar por outro nome ou ID, ou escolha outro tipo."
+          />
+        )}
       </main>
     </div>
   )

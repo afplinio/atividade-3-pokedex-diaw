@@ -18,3 +18,13 @@
   gap: 16px;
   margin-bottom: 24px;
 }
+
+.results-info {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.results-info strong {
+  color: var(--text);
+}
