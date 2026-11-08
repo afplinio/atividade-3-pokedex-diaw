@@ -25,3 +25,22 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+/* No celular os tipos ficam em uma linha com rolagem horizontal. */
+@media (max-width: 600px) {
+  .type-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0 -12px;
+    padding: 4px 12px 8px;
+    scrollbar-width: none;
+  }
+
+  .type-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .type-filter__button {
+    flex-shrink: 0;
+  }
+}

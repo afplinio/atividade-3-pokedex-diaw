@@ -28,3 +28,28 @@
 .results-info strong {
   color: var(--text);
 }
+
+/* ---------- Responsividade ---------- */
+
+/* Tablet */
+@media (max-width: 900px) {
+  .app__content {
+    padding: 20px 16px 40px;
+  }
+}
+
+/* Smartphone */
+@media (max-width: 600px) {
+  .app__content {
+    padding: 16px 12px 32px;
+  }
+
+  .toolbar {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .results-info {
+    font-size: 0.9rem;
+  }
+}

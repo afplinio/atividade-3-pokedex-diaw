@@ -129,3 +129,43 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 600px) {
+  .pokemon-card {
+    border-radius: var(--radius);
+  }
+
+  .pokemon-card__top {
+    padding: 14px 8px 4px;
+  }
+
+  .pokemon-card__image {
+    width: 90px;
+    height: 90px;
+  }
+
+  .pokemon-card__body {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .pokemon-card__name {
+    font-size: 0.98rem;
+  }
+
+  .pokemon-card__stats {
+    gap: 4px;
+  }
+
+  .pokemon-card__stat {
+    padding: 4px 2px;
+  }
+
+  .pokemon-card__stat dt {
+    font-size: 0.55rem;
+  }
+
+  .pokemon-card__stat dd {
+    font-size: 0.82rem;
+  }
+}

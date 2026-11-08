@@ -69,3 +69,22 @@
   85% { transform: rotate(-8deg); }
   90% { transform: rotate(4deg); }
 }
+
+@media (max-width: 600px) {
+  .header__inner {
+    padding: 10px 12px;
+  }
+
+  .header__pokeball {
+    width: 38px;
+    height: 38px;
+  }
+
+  .header__title {
+    font-size: 1rem;
+  }
+
+  .header__subtitle {
+    font-size: 0.75rem;
+  }
+}
