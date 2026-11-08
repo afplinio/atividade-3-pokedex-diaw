@@ -5,6 +5,7 @@ import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
 import EmptyState from './components/EmptyState'
+import Footer from './components/Footer'
 import { getUsedTypes, matchesSearch, matchesType } from './utils/pokemon'
 import './css/App.css'
 
@@ -24,6 +25,13 @@ function App() {
     [search, selectedType],
   )
 
+  const hasFilters = search !== '' || selectedType !== 'all'
+
+  const clearFilters = () => {
+    setSearch('')
+    setSelectedType('all')
+  }
+
   return (
     <div className="app">
       <Header total={data.pokemon.length} />
@@ -37,9 +45,16 @@ function App() {
           />
         </section>
 
-        <p className="results-info" aria-live="polite">
-          Exibindo <strong>{filteredPokemon.length}</strong> de {data.pokemon.length} Pokémon
-        </p>
+        <div className="results-bar">
+          <p className="results-info" aria-live="polite">
+            Exibindo <strong>{filteredPokemon.length}</strong> de {data.pokemon.length} Pokémon
+          </p>
+          {hasFilters && (
+            <button type="button" className="button button--ghost" onClick={clearFilters}>
+              Limpar filtros
+            </button>
+          )}
+        </div>
 
         {filteredPokemon.length > 0 ? (
           <PokemonList pokemonList={filteredPokemon} />
@@ -47,9 +62,14 @@ function App() {
           <EmptyState
             title="Nenhum Pokémon encontrado"
             message="Tente pesquisar por outro nome ou ID, ou escolha outro tipo."
-          />
+          >
+            <button type="button" className="button" onClick={clearFilters}>
+              Limpar filtros
+            </button>
+          </EmptyState>
         )}
       </main>
+      <Footer />
     </div>
   )
 }
