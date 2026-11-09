@@ -3,6 +3,7 @@ import data from './data/pokedex-data.json'
 import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
+import SortSelect from './components/SortSelect'
 import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
 import TrainerList from './components/TrainerList'
@@ -10,6 +11,7 @@ import EmptyState from './components/EmptyState'
 import Footer from './components/Footer'
 import { useFavorites } from './hooks/useFavorites'
 import { getOwners, getUsedTypes, matchesSearch, matchesType } from './utils/pokemon'
+import { sortPokemon } from './utils/sort'
 import './css/App.css'
 
 // Tipos presentes no arquivo de dados (calculado uma única vez).
@@ -24,19 +26,19 @@ function App() {
   const [selectedType, setSelectedType] = useState('all')
   const [selectedId, setSelectedId] = useState(null)
   const [onlyFavorites, setOnlyFavorites] = useState(false)
+  const [sortBy, setSortBy] = useState('id-asc')
   const { favorites, toggleFavorite } = useFavorites()
 
-  // Estado derivado: a lista exibida é recalculada a cada digitação.
-  const filteredPokemon = useMemo(
-    () =>
-      data.pokemon.filter(
-        (pokemon) =>
-          matchesSearch(pokemon, search) &&
-          matchesType(pokemon, selectedType) &&
-          (!onlyFavorites || favorites.includes(pokemon.id)),
-      ),
-    [search, selectedType, onlyFavorites, favorites],
-  )
+  // Estado derivado: a lista exibida é recalculada a cada digitação, filtro ou ordenação.
+  const filteredPokemon = useMemo(() => {
+    const result = data.pokemon.filter(
+      (pokemon) =>
+        matchesSearch(pokemon, search) &&
+        matchesType(pokemon, selectedType) &&
+        (!onlyFavorites || favorites.includes(pokemon.id)),
+    )
+    return sortPokemon(result, sortBy)
+  }, [search, selectedType, onlyFavorites, favorites, sortBy])
 
   const hasFilters = search !== '' || selectedType !== 'all' || onlyFavorites
 
@@ -82,6 +84,7 @@ function App() {
               <div className="toolbar__row">
                 <SearchBar value={search} onChange={setSearch} />
                 <div className="toolbar__actions">
+                  <SortSelect value={sortBy} onChange={setSortBy} />
                   <button
                     type="button"
                     className={`chip-button ${onlyFavorites ? 'is-active' : ''}`}
