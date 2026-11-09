@@ -1,0 +1,37 @@
+.random-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-accent), #f5a700);
+  color: #1f1f2e;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 4px 0 #c78700;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.random-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #c78700;
+}
+
+.random-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #c78700;
+}
+
+.random-button.is-spinning svg {
+  animation: dice-roll 0.5s ease;
+}
+
+@keyframes dice-roll {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

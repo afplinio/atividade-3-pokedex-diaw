@@ -4,6 +4,7 @@ import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
 import SortSelect from './components/SortSelect'
+import RandomButton from './components/RandomButton'
 import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
 import TrainerList from './components/TrainerList'
@@ -73,6 +74,13 @@ function App() {
     setSelectedId(navigationList[index].id)
   }, [selectedIndex, navigationList])
 
+  // Sorteia um Pokémon da lista atual (ou de todos, se a lista estiver vazia).
+  const showRandom = () => {
+    const source = filteredPokemon.length > 0 ? filteredPokemon : data.pokemon
+    const randomPokemon = source[Math.floor(Math.random() * source.length)]
+    setSelectedId(randomPokemon.id)
+  }
+
   // Comparação: no máximo 2 Pokémon. Ao escolher um terceiro, o mais antigo sai.
   const toggleCompare = (id) => {
     setCompareIds((current) => {
@@ -122,6 +130,7 @@ function App() {
                   >
                     ♥ Favoritos ({favorites.length})
                   </button>
+                  <RandomButton onClick={showRandom} />
                 </div>
               </div>
               <TypeFilter
