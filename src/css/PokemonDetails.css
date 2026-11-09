@@ -45,6 +45,18 @@
   padding: 20px 24px 24px;
 }
 
+.details__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.details__heading .favorite-button {
+  flex-shrink: 0;
+  background: var(--surface-2);
+}
+
 .details__name {
   margin: 0;
   font-size: 1.8rem;
@@ -139,7 +151,19 @@
     padding: 16px;
   }
 
-  .details__name {
+  .details__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.details__heading .favorite-button {
+  flex-shrink: 0;
+  background: var(--surface-2);
+}
+
+.details__name {
     font-size: 1.5rem;
   }
 }

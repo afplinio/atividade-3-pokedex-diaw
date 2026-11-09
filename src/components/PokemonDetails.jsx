@@ -3,10 +3,19 @@ import Modal from './Modal'
 import PokemonImage from './PokemonImage'
 import StatBar from './StatBar'
 import TypeBadge from './TypeBadge'
+import FavoriteButton from './FavoriteButton'
 import { formatId, getPokemonTypes, getTotalStats, getTypeColor, STATS } from '../utils/pokemon'
 import '../css/PokemonDetails.css'
 
-function PokemonDetails({ pokemon, owners, onClose, onPrevious, onNext }) {
+function PokemonDetails({
+  pokemon,
+  owners,
+  isFavorite,
+  onToggleFavorite,
+  onClose,
+  onPrevious,
+  onNext,
+}) {
   const types = getPokemonTypes(pokemon)
   const mainColor = getTypeColor(types[0].name)
   const secondColor = getTypeColor((types[1] ?? types[0]).name)
@@ -38,9 +47,16 @@ function PokemonDetails({ pokemon, owners, onClose, onPrevious, onNext }) {
       </div>
 
       <div className="details__body">
-        <h2 id="details-title" className="details__name">
-          {pokemon.name}
-        </h2>
+        <div className="details__heading">
+          <h2 id="details-title" className="details__name">
+            {pokemon.name}
+          </h2>
+          <FavoriteButton
+            active={isFavorite}
+            onToggle={() => onToggleFavorite(pokemon.id)}
+            name={pokemon.name}
+          />
+        </div>
 
         <div className="details__types">
           {types.map((type) => (

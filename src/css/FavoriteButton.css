@@ -1,0 +1,33 @@
+.favorite-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform var(--transition);
+}
+
+.favorite-button svg {
+  fill: transparent;
+  stroke: #e3350d;
+  stroke-width: 2;
+  transition: fill var(--transition);
+}
+
+.favorite-button:hover {
+  transform: scale(1.12);
+}
+
+.favorite-button.is-active svg {
+  fill: #e3350d;
+  animation: favorite-pop 0.35s ease;
+}
+
+@keyframes favorite-pop {
+  50% {
+    transform: scale(1.35);
+  }
+}

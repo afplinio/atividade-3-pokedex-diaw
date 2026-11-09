@@ -8,6 +8,7 @@ import PokemonDetails from './components/PokemonDetails'
 import TrainerList from './components/TrainerList'
 import EmptyState from './components/EmptyState'
 import Footer from './components/Footer'
+import { useFavorites } from './hooks/useFavorites'
 import { getOwners, getUsedTypes, matchesSearch, matchesType } from './utils/pokemon'
 import './css/App.css'
 
@@ -22,21 +23,27 @@ function App() {
   const [search, setSearch] = useState('')
   const [selectedType, setSelectedType] = useState('all')
   const [selectedId, setSelectedId] = useState(null)
+  const [onlyFavorites, setOnlyFavorites] = useState(false)
+  const { favorites, toggleFavorite } = useFavorites()
 
   // Estado derivado: a lista exibida é recalculada a cada digitação.
   const filteredPokemon = useMemo(
     () =>
       data.pokemon.filter(
-        (pokemon) => matchesSearch(pokemon, search) && matchesType(pokemon, selectedType),
+        (pokemon) =>
+          matchesSearch(pokemon, search) &&
+          matchesType(pokemon, selectedType) &&
+          (!onlyFavorites || favorites.includes(pokemon.id)),
       ),
-    [search, selectedType],
+    [search, selectedType, onlyFavorites, favorites],
   )
 
-  const hasFilters = search !== '' || selectedType !== 'all'
+  const hasFilters = search !== '' || selectedType !== 'all' || onlyFavorites
 
   const clearFilters = () => {
     setSearch('')
     setSelectedType('all')
+    setOnlyFavorites(false)
   }
 
   // Navegação do modal: percorre a lista filtrada (ou a completa, se o Pokémon não estiver nela).
@@ -72,7 +79,19 @@ function App() {
         ) : (
           <>
             <section className="toolbar">
-              <SearchBar value={search} onChange={setSearch} />
+              <div className="toolbar__row">
+                <SearchBar value={search} onChange={setSearch} />
+                <div className="toolbar__actions">
+                  <button
+                    type="button"
+                    className={`chip-button ${onlyFavorites ? 'is-active' : ''}`}
+                    onClick={() => setOnlyFavorites((current) => !current)}
+                    aria-pressed={onlyFavorites}
+                  >
+                    ♥ Favoritos ({favorites.length})
+                  </button>
+                </div>
+              </div>
               <TypeFilter
                 types={availableTypes}
                 selectedType={selectedType}
@@ -92,11 +111,20 @@ function App() {
             </div>
 
             {filteredPokemon.length > 0 ? (
-              <PokemonList pokemonList={filteredPokemon} onSelect={setSelectedId} />
+              <PokemonList
+                pokemonList={filteredPokemon}
+                onSelect={setSelectedId}
+                favorites={favorites}
+                onToggleFavorite={toggleFavorite}
+              />
             ) : (
               <EmptyState
                 title="Nenhum Pokémon encontrado"
-                message="Tente pesquisar por outro nome ou ID, ou escolha outro tipo."
+                message={
+                  onlyFavorites && favorites.length === 0
+                    ? 'Você ainda não tem favoritos. Toque no coração de um Pokémon para favoritá-lo.'
+                    : 'Tente pesquisar por outro nome ou ID, ou escolha outro tipo.'
+                }
               >
                 <button type="button" className="button" onClick={clearFilters}>
                   Limpar filtros
@@ -113,6 +141,8 @@ function App() {
         <PokemonDetails
           pokemon={selectedPokemon}
           owners={getOwners(data.trainers, selectedPokemon.id)}
+          isFavorite={favorites.includes(selectedPokemon.id)}
+          onToggleFavorite={toggleFavorite}
           onClose={closeDetails}
           onPrevious={showPrevious}
           onNext={showNext}

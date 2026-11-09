@@ -29,12 +29,55 @@
   color: var(--text);
 }
 
+.toolbar__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.chip-button {
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+  transition: border-color var(--transition), background var(--transition), color var(--transition);
+}
+
+.chip-button:hover {
+  border-color: var(--color-primary);
+}
+
+.chip-button.is-active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
 /* ---------- Responsividade ---------- */
 
 /* Tablet */
 @media (max-width: 900px) {
   .app__content {
     padding: 20px 16px 40px;
+  }
+
+  .toolbar__row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar__actions {
+    flex-wrap: wrap;
   }
 }
 

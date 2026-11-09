@@ -1,9 +1,10 @@
 import TypeBadge from './TypeBadge'
 import PokemonImage from './PokemonImage'
+import FavoriteButton from './FavoriteButton'
 import { formatId, getPokemonTypes, getTotalStats, getTypeColor, STATS } from '../utils/pokemon'
 import '../css/PokemonCard.css'
 
-function PokemonCard({ pokemon, onSelect }) {
+function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite }) {
   const types = getPokemonTypes(pokemon)
   const mainColor = getTypeColor(types[0].name)
   const secondColor = getTypeColor((types[1] ?? types[0]).name)
@@ -20,6 +21,14 @@ function PokemonCard({ pokemon, onSelect }) {
         onClick={() => onSelect(pokemon.id)}
         aria-label={`Ver detalhes de ${pokemon.name}`}
       />
+
+      <div className="pokemon-card__actions">
+        <FavoriteButton
+          active={isFavorite}
+          onToggle={() => onToggleFavorite(pokemon.id)}
+          name={pokemon.name}
+        />
+      </div>
 
       <div className="pokemon-card__top">
         <span className="pokemon-card__id">{formatId(pokemon.id)}</span>
