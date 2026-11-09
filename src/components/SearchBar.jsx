@@ -1,10 +1,18 @@
+import { useId } from 'react'
 import '../css/SearchBar.css'
 
-function SearchBar({ value, onChange }) {
+function SearchBar({
+  value,
+  onChange,
+  placeholder = 'Pesquisar Pokémon... (nome ou ID)',
+  label = 'Pesquisar Pokémon por nome ou ID',
+}) {
+  const inputId = useId()
+
   return (
     <div className="search-bar">
-      <label htmlFor="search" className="sr-only">
-        Pesquisar Pokémon por nome ou ID
+      <label htmlFor={inputId} className="sr-only">
+        {label}
       </label>
       <span className="search-bar__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="20" height="20">
@@ -13,10 +21,10 @@ function SearchBar({ value, onChange }) {
         </svg>
       </span>
       <input
-        id="search"
+        id={inputId}
         type="search"
         className="search-bar__input"
-        placeholder="Pesquisar Pokémon... (nome ou ID)"
+        placeholder={placeholder}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         autoComplete="off"

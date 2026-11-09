@@ -1,0 +1,108 @@
+.trainer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  animation: card-in 0.35s ease both;
+}
+
+.trainer-card__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.trainer-card__avatar {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-blue), #2a5ca8);
+  color: #fff;
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  border: 3px solid var(--color-accent);
+}
+
+.trainer-card__name {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.trainer-card__info {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.trainer-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.trainer-card__badge {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 2px dashed var(--border);
+}
+
+.trainer-card__badge.is-earned {
+  border: none;
+  background: radial-gradient(circle at 35% 35%, #fff6b0, var(--color-accent) 45%, #c79a00);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.trainer-card__team {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trainer-card__pokemon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 6px 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.trainer-card__pokemon:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-primary);
+}
+
+.trainer-card__pokemon img {
+  width: 56px;
+  height: 56px;
+  image-rendering: pixelated;
+}
+
+.trainer-card__pokemon-id {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.trainer-card__pokemon-name {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-align: center;
+  word-break: break-word;
+}

@@ -5,6 +5,7 @@ import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
+import TrainerList from './components/TrainerList'
 import EmptyState from './components/EmptyState'
 import Footer from './components/Footer'
 import { getOwners, getUsedTypes, matchesSearch, matchesType } from './utils/pokemon'
@@ -13,7 +14,11 @@ import './css/App.css'
 // Tipos presentes no arquivo de dados (calculado uma única vez).
 const availableTypes = getUsedTypes(data.types, data.pokemon)
 
+// Mapa id -> Pokémon para buscas rápidas (usado nos treinadores).
+const pokemonById = new Map(data.pokemon.map((pokemon) => [pokemon.id, pokemon]))
+
 function App() {
+  const [view, setView] = useState('pokedex')
   const [search, setSearch] = useState('')
   const [selectedType, setSelectedType] = useState('all')
   const [selectedId, setSelectedId] = useState(null)
@@ -55,41 +60,53 @@ function App() {
 
   return (
     <div className="app">
-      <Header total={data.pokemon.length} />
+      <Header total={data.pokemon.length} view={view} onChangeView={setView} />
+
       <main className="app__content">
-        <section className="toolbar">
-          <SearchBar value={search} onChange={setSearch} />
-          <TypeFilter
-            types={availableTypes}
-            selectedType={selectedType}
-            onSelect={setSelectedType}
+        {view === 'trainers' ? (
+          <TrainerList
+            trainers={data.trainers}
+            pokemonById={pokemonById}
+            onSelectPokemon={setSelectedId}
           />
-        </section>
-
-        <div className="results-bar">
-          <p className="results-info" aria-live="polite">
-            Exibindo <strong>{filteredPokemon.length}</strong> de {data.pokemon.length} Pokémon
-          </p>
-          {hasFilters && (
-            <button type="button" className="button button--ghost" onClick={clearFilters}>
-              Limpar filtros
-            </button>
-          )}
-        </div>
-
-        {filteredPokemon.length > 0 ? (
-          <PokemonList pokemonList={filteredPokemon} onSelect={setSelectedId} />
         ) : (
-          <EmptyState
-            title="Nenhum Pokémon encontrado"
-            message="Tente pesquisar por outro nome ou ID, ou escolha outro tipo."
-          >
-            <button type="button" className="button" onClick={clearFilters}>
-              Limpar filtros
-            </button>
-          </EmptyState>
+          <>
+            <section className="toolbar">
+              <SearchBar value={search} onChange={setSearch} />
+              <TypeFilter
+                types={availableTypes}
+                selectedType={selectedType}
+                onSelect={setSelectedType}
+              />
+            </section>
+
+            <div className="results-bar">
+              <p className="results-info" aria-live="polite">
+                Exibindo <strong>{filteredPokemon.length}</strong> de {data.pokemon.length} Pokémon
+              </p>
+              {hasFilters && (
+                <button type="button" className="button button--ghost" onClick={clearFilters}>
+                  Limpar filtros
+                </button>
+              )}
+            </div>
+
+            {filteredPokemon.length > 0 ? (
+              <PokemonList pokemonList={filteredPokemon} onSelect={setSelectedId} />
+            ) : (
+              <EmptyState
+                title="Nenhum Pokémon encontrado"
+                message="Tente pesquisar por outro nome ou ID, ou escolha outro tipo."
+              >
+                <button type="button" className="button" onClick={clearFilters}>
+                  Limpar filtros
+                </button>
+              </EmptyState>
+            )}
+          </>
         )}
       </main>
+
       <Footer />
 
       {selectedPokemon && (

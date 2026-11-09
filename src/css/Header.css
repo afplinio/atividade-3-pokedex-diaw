@@ -62,6 +62,39 @@
   opacity: 0.9;
 }
 
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header__nav {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.header__tab {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-weight: 800;
+  transition: background var(--transition), color var(--transition);
+}
+
+.header__tab:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.header__tab.is-active {
+  background: #fff;
+  color: var(--color-primary);
+}
+
 @keyframes pokeball-wobble {
   0%, 70%, 100% { transform: rotate(0); }
   75% { transform: rotate(-15deg); }
@@ -86,5 +119,19 @@
 
   .header__subtitle {
     font-size: 0.75rem;
+  }
+
+  .header__actions {
+    width: 100%;
+  }
+
+  .header__nav {
+    flex: 1;
+  }
+
+  .header__tab {
+    flex: 1;
+    padding: 7px 10px;
+    font-size: 0.9rem;
   }
 }
