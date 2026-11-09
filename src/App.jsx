@@ -10,6 +10,7 @@ import TrainerList from './components/TrainerList'
 import EmptyState from './components/EmptyState'
 import Footer from './components/Footer'
 import { useFavorites } from './hooks/useFavorites'
+import { useTheme } from './hooks/useTheme'
 import { getOwners, getUsedTypes, matchesSearch, matchesType } from './utils/pokemon'
 import { sortPokemon } from './utils/sort'
 import './css/App.css'
@@ -28,6 +29,7 @@ function App() {
   const [onlyFavorites, setOnlyFavorites] = useState(false)
   const [sortBy, setSortBy] = useState('id-asc')
   const { favorites, toggleFavorite } = useFavorites()
+  const { theme, toggleTheme } = useTheme()
 
   // Estado derivado: a lista exibida é recalculada a cada digitação, filtro ou ordenação.
   const filteredPokemon = useMemo(() => {
@@ -69,7 +71,13 @@ function App() {
 
   return (
     <div className="app">
-      <Header total={data.pokemon.length} view={view} onChangeView={setView} />
+      <Header
+        total={data.pokemon.length}
+        view={view}
+        onChangeView={setView}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
 
       <main className="app__content">
         {view === 'trainers' ? (

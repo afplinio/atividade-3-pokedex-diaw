@@ -1,3 +1,4 @@
+import ThemeToggle from './ThemeToggle'
 import '../css/Header.css'
 
 const VIEWS = [
@@ -5,7 +6,7 @@ const VIEWS = [
   { id: 'trainers', label: 'Treinadores' },
 ]
 
-function Header({ total, view, onChangeView }) {
+function Header({ total, view, onChangeView, theme, onToggleTheme }) {
   return (
     <header className="header">
       <div className="header__inner">
@@ -31,6 +32,7 @@ function Header({ total, view, onChangeView }) {
               </button>
             ))}
           </nav>
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         </div>
       </div>
     </header>

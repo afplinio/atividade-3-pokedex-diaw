@@ -27,6 +27,21 @@
   color-scheme: light;
 }
 
+/* Tema escuro: apenas as variáveis mudam, os componentes se adaptam sozinhos. */
+:root[data-theme='dark'] {
+  --bg: #12131c;
+  --bg-pattern: rgba(255, 255, 255, 0.035);
+  --surface: #1d1f2b;
+  --surface-2: #272a39;
+  --text: #f1f2f7;
+  --text-muted: #a3a7bb;
+  --border: #33374a;
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  --shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
+}
+
 *,
 *::before,
 *::after {
