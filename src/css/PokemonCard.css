@@ -37,6 +37,33 @@
   gap: 6px;
 }
 
+.pokemon-card__compare {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-blue);
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform var(--transition), background var(--transition), color var(--transition);
+}
+
+.pokemon-card__compare:hover {
+  transform: scale(1.12);
+}
+
+.pokemon-card__compare.is-active {
+  background: var(--color-blue);
+  color: #fff;
+}
+
+.pokemon-card.is-comparing {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px var(--color-blue), var(--shadow);
+}
+
 .pokemon-card__open:focus-visible {
   outline: 4px solid var(--color-accent);
   outline-offset: -4px;

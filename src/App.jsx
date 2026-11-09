@@ -7,6 +7,8 @@ import SortSelect from './components/SortSelect'
 import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
 import TrainerList from './components/TrainerList'
+import CompareTray from './components/CompareTray'
+import ComparePanel from './components/ComparePanel'
 import EmptyState from './components/EmptyState'
 import Footer from './components/Footer'
 import { useFavorites } from './hooks/useFavorites'
@@ -28,6 +30,8 @@ function App() {
   const [selectedId, setSelectedId] = useState(null)
   const [onlyFavorites, setOnlyFavorites] = useState(false)
   const [sortBy, setSortBy] = useState('id-asc')
+  const [compareIds, setCompareIds] = useState([])
+  const [showCompare, setShowCompare] = useState(false)
   const { favorites, toggleFavorite } = useFavorites()
   const { theme, toggleTheme } = useTheme()
 
@@ -69,8 +73,25 @@ function App() {
     setSelectedId(navigationList[index].id)
   }, [selectedIndex, navigationList])
 
+  // Comparação: no máximo 2 Pokémon. Ao escolher um terceiro, o mais antigo sai.
+  const toggleCompare = (id) => {
+    setCompareIds((current) => {
+      if (current.includes(id)) return current.filter((compareId) => compareId !== id)
+      return current.length < 2 ? [...current, id] : [current[1], id]
+    })
+  }
+
+  const clearCompare = () => {
+    setCompareIds([])
+    setShowCompare(false)
+  }
+
+  const closeCompare = useCallback(() => setShowCompare(false), [])
+
+  const comparePokemon = compareIds.map((id) => pokemonById.get(id))
+
   return (
-    <div className="app">
+    <div className={`app ${compareIds.length > 0 ? 'app--with-tray' : ''}`}>
       <Header
         total={data.pokemon.length}
         view={view}
@@ -127,6 +148,8 @@ function App() {
                 onSelect={setSelectedId}
                 favorites={favorites}
                 onToggleFavorite={toggleFavorite}
+                compareIds={compareIds}
+                onToggleCompare={toggleCompare}
               />
             ) : (
               <EmptyState
@@ -147,6 +170,23 @@ function App() {
       </main>
 
       <Footer />
+
+      {compareIds.length > 0 && (
+        <CompareTray
+          selected={comparePokemon}
+          onRemove={toggleCompare}
+          onClear={clearCompare}
+          onCompare={() => setShowCompare(true)}
+        />
+      )}
+
+      {showCompare && comparePokemon.length === 2 && (
+        <ComparePanel
+          first={comparePokemon[0]}
+          second={comparePokemon[1]}
+          onClose={closeCompare}
+        />
+      )}
 
       {selectedPokemon && (
         <PokemonDetails

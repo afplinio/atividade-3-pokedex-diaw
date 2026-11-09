@@ -4,14 +4,21 @@ import FavoriteButton from './FavoriteButton'
 import { formatId, getPokemonTypes, getTotalStats, getTypeColor, STATS } from '../utils/pokemon'
 import '../css/PokemonCard.css'
 
-function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite }) {
+function PokemonCard({
+  pokemon,
+  onSelect,
+  isFavorite,
+  onToggleFavorite,
+  isComparing,
+  onToggleCompare,
+}) {
   const types = getPokemonTypes(pokemon)
   const mainColor = getTypeColor(types[0].name)
   const secondColor = getTypeColor((types[1] ?? types[0]).name)
 
   return (
     <article
-      className="pokemon-card"
+      className={`pokemon-card ${isComparing ? 'is-comparing' : ''}`}
       style={{ '--card-color': mainColor, '--card-color-2': secondColor }}
     >
       {/* Botão invisível que cobre o card inteiro e abre os detalhes. */}
@@ -28,6 +35,18 @@ function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite }) {
           onToggle={() => onToggleFavorite(pokemon.id)}
           name={pokemon.name}
         />
+        <button
+          type="button"
+          className={`pokemon-card__compare ${isComparing ? 'is-active' : ''}`}
+          onClick={() => onToggleCompare(pokemon.id)}
+          aria-pressed={isComparing}
+          aria-label={
+            isComparing ? `Remover ${pokemon.name} da comparação` : `Comparar ${pokemon.name}`
+          }
+          title={isComparing ? 'Remover da comparação' : 'Comparar'}
+        >
+          VS
+        </button>
       </div>
 
       <div className="pokemon-card__top">

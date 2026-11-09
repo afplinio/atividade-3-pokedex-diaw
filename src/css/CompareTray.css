@@ -1,0 +1,126 @@
+.compare-tray {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(760px, calc(100% - 32px));
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  transform: translateX(-50%);
+  animation: tray-in 0.3s ease both;
+}
+
+.compare-tray__slots {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  min-width: 0;
+}
+
+.compare-tray__slot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.compare-tray__slot img {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+}
+
+.compare-tray__slot.is-empty {
+  justify-content: center;
+  min-height: 56px;
+  border: 2px dashed var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.compare-tray__name {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compare-tray__name small {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.compare-tray__remove {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
+
+.compare-tray__remove:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.compare-tray__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.compare-tray .button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@keyframes tray-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 30px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 600px) {
+  .compare-tray {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    bottom: 8px;
+    width: calc(100% - 16px);
+    padding: 10px;
+  }
+
+  .compare-tray__slot img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .compare-tray__actions .button {
+    flex: 1;
+  }
+}
