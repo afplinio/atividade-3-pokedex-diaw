@@ -1,12 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import data from './data/pokedex-data.json'
 import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
+import PokemonDetails from './components/PokemonDetails'
 import EmptyState from './components/EmptyState'
 import Footer from './components/Footer'
-import { getUsedTypes, matchesSearch, matchesType } from './utils/pokemon'
+import { getOwners, getUsedTypes, matchesSearch, matchesType } from './utils/pokemon'
 import './css/App.css'
 
 // Tipos presentes no arquivo de dados (calculado uma única vez).
@@ -15,6 +16,7 @@ const availableTypes = getUsedTypes(data.types, data.pokemon)
 function App() {
   const [search, setSearch] = useState('')
   const [selectedType, setSelectedType] = useState('all')
+  const [selectedId, setSelectedId] = useState(null)
 
   // Estado derivado: a lista exibida é recalculada a cada digitação.
   const filteredPokemon = useMemo(
@@ -31,6 +33,25 @@ function App() {
     setSearch('')
     setSelectedType('all')
   }
+
+  // Navegação do modal: percorre a lista filtrada (ou a completa, se o Pokémon não estiver nela).
+  const navigationList = filteredPokemon.some((pokemon) => pokemon.id === selectedId)
+    ? filteredPokemon
+    : data.pokemon
+  const selectedIndex = navigationList.findIndex((pokemon) => pokemon.id === selectedId)
+  const selectedPokemon = selectedIndex >= 0 ? navigationList[selectedIndex] : null
+
+  const closeDetails = useCallback(() => setSelectedId(null), [])
+
+  const showPrevious = useCallback(() => {
+    const index = (selectedIndex - 1 + navigationList.length) % navigationList.length
+    setSelectedId(navigationList[index].id)
+  }, [selectedIndex, navigationList])
+
+  const showNext = useCallback(() => {
+    const index = (selectedIndex + 1) % navigationList.length
+    setSelectedId(navigationList[index].id)
+  }, [selectedIndex, navigationList])
 
   return (
     <div className="app">
@@ -57,7 +78,7 @@ function App() {
         </div>
 
         {filteredPokemon.length > 0 ? (
-          <PokemonList pokemonList={filteredPokemon} />
+          <PokemonList pokemonList={filteredPokemon} onSelect={setSelectedId} />
         ) : (
           <EmptyState
             title="Nenhum Pokémon encontrado"
@@ -70,6 +91,16 @@ function App() {
         )}
       </main>
       <Footer />
+
+      {selectedPokemon && (
+        <PokemonDetails
+          pokemon={selectedPokemon}
+          owners={getOwners(data.trainers, selectedPokemon.id)}
+          onClose={closeDetails}
+          onPrevious={showPrevious}
+          onNext={showNext}
+        />
+      )}
     </div>
   )
 }

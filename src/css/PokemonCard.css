@@ -11,9 +11,25 @@
   animation: card-in 0.35s ease both;
 }
 
-.pokemon-card:hover {
+.pokemon-card:hover,
+.pokemon-card:focus-within {
   transform: translateY(-6px);
   box-shadow: var(--shadow-hover);
+}
+
+.pokemon-card__open {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  border: none;
+  border-radius: inherit;
+  background: transparent;
+}
+
+.pokemon-card__open:focus-visible {
+  outline: 4px solid var(--color-accent);
+  outline-offset: -4px;
 }
 
 .pokemon-card__top {

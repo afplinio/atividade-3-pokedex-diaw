@@ -1,13 +1,10 @@
 import TypeBadge from './TypeBadge'
 import PokemonImage from './PokemonImage'
-import { formatId, getTotalStats, getTypeColor, STATS } from '../utils/pokemon'
+import { formatId, getPokemonTypes, getTotalStats, getTypeColor, STATS } from '../utils/pokemon'
 import '../css/PokemonCard.css'
 
-// Alguns Pokémon do arquivo (ex.: Mew) não possuem tipos cadastrados.
-const NO_TYPE = [{ id: 0, name: 'Typeless' }]
-
-function PokemonCard({ pokemon }) {
-  const types = pokemon.types.length > 0 ? pokemon.types : NO_TYPE
+function PokemonCard({ pokemon, onSelect }) {
+  const types = getPokemonTypes(pokemon)
   const mainColor = getTypeColor(types[0].name)
   const secondColor = getTypeColor((types[1] ?? types[0]).name)
 
@@ -16,6 +13,14 @@ function PokemonCard({ pokemon }) {
       className="pokemon-card"
       style={{ '--card-color': mainColor, '--card-color-2': secondColor }}
     >
+      {/* Botão invisível que cobre o card inteiro e abre os detalhes. */}
+      <button
+        type="button"
+        className="pokemon-card__open"
+        onClick={() => onSelect(pokemon.id)}
+        aria-label={`Ver detalhes de ${pokemon.name}`}
+      />
+
       <div className="pokemon-card__top">
         <span className="pokemon-card__id">{formatId(pokemon.id)}</span>
         <PokemonImage

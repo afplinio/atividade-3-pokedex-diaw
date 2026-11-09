@@ -96,3 +96,11 @@ export const matchesSearch = (pokemon, search) => {
 
 export const matchesType = (pokemon, typeName) =>
   typeName === 'all' || pokemon.types.some((type) => type.name === typeName)
+
+// Alguns Pokémon do arquivo (ex.: Mew) não possuem tipos cadastrados.
+const NO_TYPE = [{ id: 0, name: 'Typeless' }]
+export const getPokemonTypes = (pokemon) => (pokemon.types.length > 0 ? pokemon.types : NO_TYPE)
+
+// Treinadores que possuem o Pokémon informado.
+export const getOwners = (trainers, pokemonId) =>
+  trainers.filter((trainer) => trainer.pokemonIds.includes(pokemonId))
